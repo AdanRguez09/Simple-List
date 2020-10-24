@@ -1,13 +1,15 @@
 #ifndef LISTA_H_INCLUDED
 #define LISTA_H_INCLUDED
-
 #include <iostream>
 
 typedef int posicion;
+const int CAPACIDAD_MINIMA = 25;
 const posicion POSICION_ERROR=-1;
 
 using namespace std;
 
+/** @class Lista encargada de manejar los elementos con distintas operaciones
+*/
 template<class TipoElemento>
 class Lista {
     TipoElemento* elementos;
@@ -15,10 +17,12 @@ class Lista {
     string nombre;
     int capacidad;
 public:
-    Lista(int capacidad);
+    Lista(int capacidad,
+          string nombre);
     Lista();
     ~Lista();
-    void inserta(TipoElemento& x, posicion p);
+    void inserta(TipoElemento& x,
+                 posicion p);
     void inserta(TipoElemento& x);
     posicion localiza(TipoElemento& x);
     TipoElemento* recupera(posicion p);
@@ -32,12 +36,164 @@ public:
     bool estaVacia();
     bool estaLlena();
     void imprimeError(string info);
-    bool mismo(TipoElemento& x,TipoElemento& y);
+    bool mismo(TipoElemento& x,
+               TipoElemento& y);
     int dameLongitud();
     int dameCapacidad();
     Lista<TipoElemento>* concatenar(Lista& l);
     void fijaNombre(string n);
     string dameNombre();
 };
+
+/** Metodo constructor encargado de definir una lista con capacidad inicial
+ *  @param capacidad cantidad de elementos iniciales
+ *  @param nombre nombre de la lista
+*/
+template<class TipoElemento>
+Lista<TipoElemento>::Lista(int capacidad,
+                           string nombre) {
+    this->ult = POSICION_ERROR;
+    this->nombre = nombre;
+    this->elementos = new TipoElemento[this->capacidad = capacidad];
+}
+
+/** Metodo constructor encargado de definir una lista con capacacidad minima
+*/
+template<class TipoElemento>
+Lista<TipoElemento>::Lista():
+    Lista(CAPACIDAD_MINIMA) {
+}
+
+/** Metodo destructor
+ */
+template<class TipoElemento>
+Lista<TipoElemento>::~Lista() {
+    delete[] elementos;
+}
+
+/** Fijar el nombre de la lista
+ *  @param n nombre de la lista a fijar
+ */
+template<class TipoElemento>
+void Lista<TipoElemento>::fijaNombre(string n) {
+    this->nombre = n;
+}
+
+/** Obtener el nombre de la lista
+ * @return nombre de la lista tipo string
+ */
+template<class TipoElemento>
+string Lista<TipoElemento>::dameNombre() {
+    return nombre;
+}
+
+/** Insertar un elemento al final de la lista
+ *  @param x elemento a insertar
+ */
+template<class TipoElemento>
+void Lista<TipoElemento>::inserta(TipoElemento& x) {
+    inserta(x,fin());
+}
+
+/** Obtener la posicion siguiente dada una posicion
+ *  @param p posicion dada
+ *  @return posición siguiente
+ */
+template<class TipoElemento>
+posicion Lista<TipoElemento>::siguiente(posicion p) {
+    posicion pos;
+    if (p>=primero() && p<=ult) {
+        pos = p+1;
+    } else {
+        imprimeError("Posicion siguiente no existe");
+        pos = POSICION_ERROR;
+    }
+    return pos;
+}
+
+/** Obtener la posicion anterior dada una posicion
+ *  @param p posicion dada
+ *  @return posición anterior
+ */ 
+template<class TipoElemento>
+posicion Lista<TipoElemento>::anterior(posicion p) {
+    posicion pos;
+    if (p>primero() && p<=fin()) {
+        pos = p-1;
+    } else {
+        imprimeError("Posicion anterior no existe");
+        pos = POSICION_ERROR;
+    }
+    return pos;
+}
+
+/** Obtener la posicion final
+ */ 
+template<class TipoElemento>
+posicion Lista<TipoElemento>::fin() {
+    return ult + 1;
+}
+
+/** Obtener la primera posicion
+ */ 
+template<class TipoElemento>
+posicion Lista<TipoElemento>::primero() {
+    posicion pos;
+    if (!estaVacia()) {
+        pos = 0;
+    } else {
+        pos = fin();
+    }
+    return pos;
+}
+
+/** Obtener la ultima posicion
+ */ 
+template<class TipoElemento>
+posicion Lista<TipoElemento>::ultimo() {
+    posicion pos;
+    if (estaVacia()) {
+        pos = POSICION_ERROR;
+    } else {
+        pos = anterior(fin());
+    }
+    return pos;
+}
+
+/** Valida si existe o no la lista
+ */
+template<class TipoElemento>
+bool Lista<TipoElemento>::estaVacia() {
+    return ult<0;
+}
+
+/** Valida si la lista esta llena o no
+ */
+template<class TipoElemento>
+bool Lista<TipoElemento>::estaLlena() {
+    return ult>=capacidad-1;
+}
+
+/** Imprimir un error ocasionado por el programador al usar la lista
+ *  @param info mensaje a mostrar
+ */
+template<class TipoElemento>
+void Lista<TipoElemento>::imprimeError(string info) {
+    cout << "ERROR DEL PROGRAMADOR: " << info << endl;
+}
+
+/** Obtener la longitud de la lista
+ */
+template<class TipoElemento>
+int Lista<TipoElemento>::dameLongitud() {
+    return ult + 1;
+}
+
+/** Obtener la capacidad maxima de la lista
+ */
+template<class TipoElemento>
+int Lista<TipoElemento>::dameCapacidad() {
+    return capacidad;
+}
 
 #endif
