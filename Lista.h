@@ -246,4 +246,21 @@ posicion Lista<TipoElemento>::localiza(TipoElemento* x){
     return p;
 }
 
+/** Borrar un elemento de la lista dada una posicion
+ *  @param p posicion del elemento a borrar
+ */ 
+template<class TipoElemento>
+void Lista<TipoElemento>::suprime(posicion p) {
+    posicion q;
+    posicion r;
+    if ((p<primero()) || (p>ult)) {
+        imprimeError("La posicion a suprimir no existe");
+    } else {
+        r=--(ult);
+        for(q=p; q<=r; q++) {
+            elementos[q]=elementos[q+1];
+        }
+    }
+}
+
 #endif
