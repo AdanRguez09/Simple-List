@@ -230,4 +230,20 @@ TipoElemento* Lista<TipoElemento>::recupera(posicion p) {
     return elemento;
 }
 
+/** Localizar la posicion de un elemento en la lista
+ *  @param x elemento a buscar
+ *  @return posicion donde se encuentra el elemento
+ */
+template<class TipoElemento>
+posicion Lista<TipoElemento>::localiza(TipoElemento* x){
+    posicion p;
+    posicion q;
+    for(p=primero(),q=ult;p<=q;p++){
+        if (*recupera(p)==*x) {
+            break;
+        }
+    }
+    return p;
+}
+
 #endif
