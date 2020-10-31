@@ -196,4 +196,25 @@ int Lista<TipoElemento>::dameCapacidad() {
     return capacidad;
 }
 
+/** Insertar un elemento en una posicion dada
+ *  @param x elemento a insertar
+ *  @param p posicion en donde se va a insertar
+ */
+template<class TipoElemento>
+void Lista<TipoElemento>::inserta(TipoElemento& x,
+                                  posicion p) {
+    posicion q;
+    if (estaLlena()) {
+        imprimeError("La lista esta llena");
+    } else if ((p<primero()) || (p>fin())) {
+        imprimeError("La posicion a insertar no existe");
+    } else {
+        for (q=ult; q>=p; q--) {
+            elementos[q+1] = elementos[q];
+        }
+        ult++;
+        elementos[p] = x;
+    }
+}
+
 #endif
