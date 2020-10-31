@@ -217,4 +217,17 @@ void Lista<TipoElemento>::inserta(TipoElemento& x,
     }
 }
 
+/** Recuperar un elemento dada una posicion
+ *  @param p posicion donde se encuentra
+ *  @return elemento encontrado
+ */ 
+template<class TipoElemento>
+TipoElemento* Lista<TipoElemento>::recupera(posicion p) {
+    TipoElemento* elemento = 0;
+    if (p>=primero() && p<=ult) {
+        elemento = &(elementos[p]);
+    }
+    return elemento;
+}
+
 #endif
