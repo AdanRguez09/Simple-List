@@ -263,4 +263,15 @@ void Lista<TipoElemento>::suprime(posicion p) {
     }
 }
 
+/** Comparar si dos elementos son iguales
+ *  @param x elemento 1 a comparar
+ *  @param y elemento 2 a comparar
+ *  @return Son iguales o no
+ */ 
+template<class TipoElemento>
+bool Lista<TipoElemento>::mismo(TipoElemento& x,
+               TipoElemento& y){
+    return x == y;
+}
+
 #endif
