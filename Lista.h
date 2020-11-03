@@ -196,4 +196,82 @@ int Lista<TipoElemento>::dameCapacidad() {
     return capacidad;
 }
 
+/** Insertar un elemento en una posicion dada
+ *  @param x elemento a insertar
+ *  @param p posicion en donde se va a insertar
+ */
+template<class TipoElemento>
+void Lista<TipoElemento>::inserta(TipoElemento& x,
+                                  posicion p) {
+    posicion q;
+    if (estaLlena()) {
+        imprimeError("La lista esta llena");
+    } else if ((p<primero()) || (p>fin())) {
+        imprimeError("La posicion a insertar no existe");
+    } else {
+        for (q=ult; q>=p; q--) {
+            elementos[q+1] = elementos[q];
+        }
+        ult++;
+        elementos[p] = x;
+    }
+}
+
+/** Recuperar un elemento dada una posicion
+ *  @param p posicion donde se encuentra
+ *  @return elemento encontrado
+ */ 
+template<class TipoElemento>
+TipoElemento* Lista<TipoElemento>::recupera(posicion p) {
+    TipoElemento* elemento = 0;
+    if (p>=primero() && p<=ult) {
+        elemento = &(elementos[p]);
+    }
+    return elemento;
+}
+
+/** Localizar la posicion de un elemento en la lista
+ *  @param x elemento a buscar
+ *  @return posicion donde se encuentra el elemento
+ */
+template<class TipoElemento>
+posicion Lista<TipoElemento>::localiza(TipoElemento* x){
+    posicion p;
+    posicion q;
+    for(p=primero(),q=ult;p<=q;p++){
+        if (*recupera(p)==*x) {
+            break;
+        }
+    }
+    return p;
+}
+
+/** Borrar un elemento de la lista dada una posicion
+ *  @param p posicion del elemento a borrar
+ */ 
+template<class TipoElemento>
+void Lista<TipoElemento>::suprime(posicion p) {
+    posicion q;
+    posicion r;
+    if ((p<primero()) || (p>ult)) {
+        imprimeError("La posicion a suprimir no existe");
+    } else {
+        r=--(ult);
+        for(q=p; q<=r; q++) {
+            elementos[q]=elementos[q+1];
+        }
+    }
+}
+
+/** Comparar si dos elementos son iguales
+ *  @param x elemento 1 a comparar
+ *  @param y elemento 2 a comparar
+ *  @return Son iguales o no
+ */ 
+template<class TipoElemento>
+bool Lista<TipoElemento>::mismo(TipoElemento& x,
+               TipoElemento& y){
+    return x == y;
+}
+
 #endif
